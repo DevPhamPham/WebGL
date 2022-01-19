@@ -4,7 +4,7 @@ export class Tree{
     }
     init(){
       let gltfLoader = new THREE.GLTFLoader();
-      let url = "../../PublicModel/GLBs/plants/tree.glb";
+      let url = "../PublicModel/GLBs/plants/tree.glb";
       gltfLoader.load(url, (gltf) => {
         this.planes = gltf.scene;
         this.scene.add(this.planes);
