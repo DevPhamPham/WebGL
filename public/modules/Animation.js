@@ -1,4 +1,4 @@
-function animate(scene, camera, renderer) { //animate(now)
+function animate(scene, camera, renderer,sun) { //animate(now)
     // let mixerUpdateDelta = clock.getDelta();
     // if (characterControls) {
     //   characterControls.update(mixerUpdateDelta, keysPressed);

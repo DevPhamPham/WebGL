@@ -1,21 +1,26 @@
 window.addEventListener("load", init, false);
 import SCENE from "../public/modules/CreateScene.js";
-import light from "../public/modules/CreateLight.js";
+// import light from "../public/modules/CreateLight.js";
 import generateFloor from "../public/modules/Floor.js";
-import SkyBox from "../public/modules/SkyBox.js";
+import {SkyBox} from "../public/modules/SkyBox.js";
 // import generateFloor from "../test/Floor.js";
 import  {KeyDisplay}  from "../public/modules/controls/KeyDisplay.js";
 import  {CharacterControls}  from "../public/modules/players/CharacterControls.js";
-import {GLTFLoader} from "https://threejsfundamentals.org/threejs/resources/threejs/r132/examples/jsm/loaders/GLTFLoader.js";
+import  {Tree}  from "../public/modules/map/tree.js";
+import  {Sun}  from "../public/modules/map/sun.js";
+// import {GLTFLoader} from "https://threejsfundamentals.org/threejs/resources/threejs/r132/examples/jsm/loaders/GLTFLoader.js";
 
 function init() {
+  let alphaLight = 1,alphaFog = 200,k=100,timereset=100*k;// 10000
   let mixers = [],then=0;
-  const { scene, camera, renderer } = SCENE(); // scene
-  light(scene);                                // light
+  const { scene, camera, renderer } = SCENE(alphaFog,timereset); // scene
+  const sun = new Sun(scene);
+  sun.init(alphaLight,timereset);
+  // light(scene,alphaLight,timereset);                                // light
   // CONTROLS
   const orbitControls = new THREE.OrbitControls(camera, renderer.domElement);
   orbitControls.enableDamping = true;
-  orbitControls.minDistance = 50;
+  orbitControls.minDistance = 65;
   // orbitControls.target.y = 70; //25
   orbitControls.maxDistance = 250;
   orbitControls.enablePan = true;
@@ -27,9 +32,27 @@ function init() {
   // }, true );
 
   generateFloor(scene);
-  SkyBox(scene);
-
-
+  let skybox = new SkyBox(scene);
+  skybox.init(Colors.White);
+  setTimeout(function () {
+    skybox.init(Colors.DimGray);
+    runSkyBox();
+  },4800*k);
+  let day=0;
+function runSkyBox(){
+  setInterval(function () {
+    if (day==0){
+      skybox.init(Colors.White);
+      day=1;
+    } else {
+      skybox.init(Colors.DimGray);
+      day=0;
+    }
+  },9600*k)
+}
+let trees = new Tree(scene);
+for (let i=1; i<=100;i++) 
+  trees.init();
 
   Animals();
   players();

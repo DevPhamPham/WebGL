@@ -1,26 +1,46 @@
-var fieldOfView,
-  aspectRatio,
-  nearPlane,
-  farPlane,
-  HEIGHT,
-  WIDTH,
-  container;
+var fieldOfView, aspectRatio, nearPlane, farPlane, HEIGHT, WIDTH, container;
 
-function SCENE() {
+function SCENE(alpha, timereset) {
   //  console.log("SCENE");
   // SCENE
   // const scene = new THREE.Scene();
   HEIGHT = window.innerHeight;
   WIDTH = window.innerWidth;
   const scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(Colors.white, 1, 1900);
+  // scene.fog = new THREE.Fog(Colors.Silver, 1, alpha);
   scene.background = new THREE.Color(0xa8def0);
+
+  let countL = 22,
+    countN = -1,
+    colorFog;
+  setInterval(function () {
+    if (countL != -1) {
+      countL++;
+      colorFog = Colors.Silver;
+      if (countL == 44) {
+        // alpha=Math.floor(Math.random() * 1150) + 200;
+        // scene.fog = new THREE.Fog(colorFog, 1, alpha);
+        countL = -1;
+        countN = 0;
+      }
+    } else if (countN != -1) {
+      countN++;
+      colorFog = Colors.Black;
+      if (countN == 44) {
+        // alpha=Math.floor(Math.random() * 1150) + 200;
+        // scene.fog = new THREE.Fog(colorFog, 1, alpha);
+        countN = -1;
+        countL = 0;
+      }
+    }
+    // console.log(alpha);
+  }, timereset);
 
   // CAMERA
   aspectRatio = WIDTH / HEIGHT;
-  fieldOfView = 50;
+  fieldOfView = 60;
   nearPlane = 1;
-  farPlane = 3000;
+  farPlane = 20000;
   const camera = new THREE.PerspectiveCamera(
     fieldOfView,
     aspectRatio,
@@ -33,8 +53,8 @@ function SCENE() {
   // camera.lookAt(0,100,0)
 
   //...............................The X axis is red. The Y axis is green. The Z axis is blue.
-  const axesHelper = new THREE.AxesHelper(2000);
-  scene.add(axesHelper);
+  // const axesHelper = new THREE.AxesHelper(2000);
+  // scene.add(axesHelper);
 
   // RENDERER
   const renderer = new THREE.WebGLRenderer({
@@ -56,7 +76,7 @@ function SCENE() {
     // keyDisplayQueue.updatePosition();
   }
   window.addEventListener("resize", handleWindowResize, false);
-  return {scene, camera, renderer};
+  return { scene, camera, renderer };
 }
 
 export default SCENE;

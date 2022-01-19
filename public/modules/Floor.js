@@ -106,7 +106,7 @@
 // }
 
 function generateFloor(scene) {
-  var planeSize = 2000;
+  var planeSize = 15000;
 
   var loader = new THREE.TextureLoader();
   var texture = loader.load("../asset/image/textture/GreenGrass.jpeg");
